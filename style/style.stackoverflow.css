@@ -1,0 +1,52 @@
+
+#overflow_plugin {
+  position: relative;
+  color: black;
+}
+
+#overflow_plugin #overflow_avatar {
+  left: 0px;
+}
+
+#overflow_plugin #overflow_user_name {
+  position: absolute;
+  left: 55px;
+}
+
+#overflow_plugin #overflow_reputation {
+  position: absolute;
+  left: 55px;
+  top: 15px;
+}
+
+#overflow_plugin #overflow_badge_count {
+  list-style: none;
+  position: absolute;
+  top: 30px;
+  left: 35px;
+}
+
+#overflow_plugin #overflow_badge_count li {
+  padding-right: 6px;
+  width: 5px;
+  display: inline;
+}
+
+#overflow_plugin #overflow_badge_count li span {
+  height: 6px;
+  width: 6px;
+  background: url(overflow/badges.png) no-repeat;
+  display: inline-block;
+  magrin: auto;
+}
+
+#overflow_plugin #overflow_badge_count li span#bronze {
+  background-position: 0px 0px;
+}
+
+#overflow_plugin #overflow_badge_count li span#silver {
+  background-position: -7px 0px;
+}
+
+#overflow_plugin #overflow_badge_count li span#gold {
+  background-position: -14px 0px;

@@ -9,7 +9,7 @@ do ($ = jQuery) ->
       display_all_badge_count: true         #[boolean] Display all badge counts?
       display_gold_count: true              #[boolean] Display gold badge count?
       display_silver_count: true            #[boolean] Display silver badge count?
-      display_bronze_count: false           #[boolean] Display bronze badge count?
+      display_bronze_count: true           #[boolean] Display bronze badge count?
       display_reputation: true              #[boolean] Display your reputation?
       ,opts
 
@@ -20,8 +20,6 @@ do ($ = jQuery) ->
         user_stats['user_name'] = '<span id="overflow_user_name">'+user.display_name+'</span>'
       if s.display_reputation
         user_stats['reputation'] = '<span id="overflow_reputation">'+user.reputation+'</span>'
-
-      create(user_stats)
 
     build_badge_info = (badges) =>
       badge_info = {}
@@ -39,11 +37,12 @@ do ($ = jQuery) ->
           badge_count.gold += 1
 
       if s.display_all_badge_count
-        @.append('<ul id="overflow_badge_count">')
+        user_stats['badge_count'] = '<ul id="overflow_badge_count">'
         for rank, count of badge_count
-          if eval("s.display_"+rank+"_count")
-            @.children('ul').append('<li id="overflow_'+rank+'_count">'+rank+': '+count+'</li>')
+          if eval("s.display_"+rank+"_count") && count > 0
+            user_stats[rank] = '<li id="overflow_'+rank+'_count"><span id="'+rank+'"></span> '+count+'</li>'
 
+      create(user_stats)
 
     $.ajax({
       url: 'http://api.stackoverflow.com/1.1/users/'+s.user_id+'?key=zfEThydFQkK1it61Qkrbrw&jsonp=?'
@@ -60,7 +59,11 @@ do ($ = jQuery) ->
     })
 
     create = (buildData) =>
+      @.append "<div id='overflow_plugin'>"
       for stat, element of buildData
-        @.append element
+        if stat.match(/(bronze|silver|gold)/)
+          $("#overflow_badge_count").append element
+        else
+          @.children("div").append element
       return
     return

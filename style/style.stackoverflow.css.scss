@@ -1,0 +1,53 @@
+#overflow_plugin {
+  position: relative;
+  color: black;
+
+  #overflow_avatar {
+    left: 0px;
+  }
+
+  #overflow_user_name {
+    position: absolute;
+    left: 55px;
+  }
+
+  #overflow_reputation {
+    position: absolute;
+    left: 55px;
+    top: 15px;
+  }
+
+  #overflow_badge_count {
+    list-style: none;
+    position: absolute;
+    top: 30px;
+    left: 35px;
+
+    li {
+      padding-right: 6px;
+      width: 5px;
+      display: inline;
+
+      span {
+        height: 6px;
+        width: 6px;
+        background: url(images
+          /badges.png) no-repeat;
+        display: inline-block;
+        magrin: auto;
+
+        &#bronze {
+          background-position: 0px 0px;
+        }
+
+        &#silver  {
+          background-position: -7px 0px;
+        }
+
+        &#gold {
+          background-position: -14px 0px;
+        }
+      }
+    }
+  }
+}

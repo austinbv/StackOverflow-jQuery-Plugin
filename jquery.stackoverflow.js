@@ -15,7 +15,7 @@
         display_all_badge_count: true,
         display_gold_count: true,
         display_silver_count: true,
-        display_bronze_count: false,
+        display_bronze_count: true,
         display_reputation: true
       }, opts);
       build_user_info = __bind(function(user) {
@@ -26,12 +26,11 @@
           user_stats['user_name'] = '<span id="overflow_user_name">' + user.display_name + '</span>';
         }
         if (s.display_reputation) {
-          user_stats['reputation'] = '<span id="overflow_reputation">' + user.reputation + '</span>';
+          return user_stats['reputation'] = '<span id="overflow_reputation">' + user.reputation + '</span>';
         }
-        return create(user_stats);
       }, this);
       build_badge_info = __bind(function(badges) {
-        var badge, badge_count, badge_info, count, rank, _i, _len, _results;
+        var badge, badge_count, badge_info, count, rank, _i, _len;
         badge_info = {};
         badge_count = {
           bronze: 0,
@@ -49,14 +48,15 @@
           }
         }
         if (s.display_all_badge_count) {
-          this.append('<ul id="overflow_badge_count">');
-          _results = [];
+          user_stats['badge_count'] = '<ul id="overflow_badge_count">';
           for (rank in badge_count) {
             count = badge_count[rank];
-            _results.push(eval("s.display_" + rank + "_count") ? this.children('ul').append('<li id="overflow_' + rank + '_count">' + rank + ': ' + count + '</li>') : void 0);
+            if (eval("s.display_" + rank + "_count") && count > 0) {
+              user_stats[rank] = '<li id="overflow_' + rank + '_count"><span id="' + rank + '"></span> ' + count + '</li>';
+            }
           }
-          return _results;
         }
+        return create(user_stats);
       }, this);
       $.ajax({
         url: 'http://api.stackoverflow.com/1.1/users/' + s.user_id + '?key=zfEThydFQkK1it61Qkrbrw&jsonp=?',
@@ -76,9 +76,14 @@
       });
       create = __bind(function(buildData) {
         var element, stat;
+        this.append("<div id='overflow_plugin'>");
         for (stat in buildData) {
           element = buildData[stat];
-          this.append(element);
+          if (stat.match(/(bronze|silver|gold)/)) {
+            $("#overflow_badge_count").append(element);
+          } else {
+            this.children("div").append(element);
+          }
         }
       }, this);
     };
