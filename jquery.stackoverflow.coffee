@@ -20,6 +20,7 @@ do ($ = jQuery) ->
         user_stats['user_name'] = '<span id="overflow_user_name">'+user.display_name+'</span>'
       if s.display_reputation
         user_stats['reputation'] = '<span id="overflow_reputation">'+user.reputation+'</span>'
+      get_badges()
 
     build_badge_info = (badges) =>
       badge_info = {}
@@ -44,19 +45,21 @@ do ($ = jQuery) ->
 
       create(user_stats)
 
-    $.ajax({
-      url: 'http://api.stackoverflow.com/1.1/users/'+s.user_id+'?key=zfEThydFQkK1it61Qkrbrw&jsonp=?'
-      dataType: 'jsonp'
-      crossDomain: true
-      success: (data) -> build_user_info(data.users[0]); return
-    })
+    get_user_info = ->
+      $.ajax({
+        url: 'http://api.stackoverflow.com/1.1/users/'+s.user_id+'?key=zfEThydFQkK1it61Qkrbrw&jsonp=?'
+        dataType: 'jsonp'
+        crossDomain: true
+        success: (data) -> build_user_info(data.users[0]); return
+      })
 
-    $.ajax({
-      url: 'http://api.stackoverflow.com/1.1/users/'+s.user_id+'/badges?key=zfEThydFQkK1it61Qkrbrw&jsonp=?'
-      dataType: 'jsonp'
-      crossDomain: true
-      success: (data) -> build_badge_info(data.badges); return
-    })
+    get_badges = ->
+      $.ajax({
+        url: 'http://api.stackoverflow.com/1.1/users/'+s.user_id+'/badges?key=zfEThydFQkK1it61Qkrbrw&jsonp=?'
+        dataType: 'jsonp'
+        crossDomain: true
+        success: (data) -> build_badge_info(data.badges); return
+      })
 
     create = (buildData) =>
       @.append "<div id='overflow_plugin'>"
@@ -64,6 +67,7 @@ do ($ = jQuery) ->
         if stat.match(/(bronze|silver|gold)/)
           $("#overflow_badge_count").append element
         else
-          @.children("div").append element
+          @.children("#overflow_plugin").append element
       return
+    get_user_info()
     return
