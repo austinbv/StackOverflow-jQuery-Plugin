@@ -1,6 +1,8 @@
 #overflow_plugin {
+  width: 180px;
   position: relative;
   color: black;
+  background: url(images/overflow_icon.png) no-repeat right;
 
   #overflow_avatar {
     left: 0px;
@@ -31,8 +33,7 @@
       span {
         height: 6px;
         width: 6px;
-        background: url(images
-          /badges.png) no-repeat;
+        background: url(images/badges.png) no-repeat;
         display: inline-block;
         magrin: auto;
 
